@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState} from "react"
-import ReactPlayer from "react-player";
+
 
 export default function Reciever(){
 
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
-  
-  const [stream, setStream] = useState<MediaStream | null>(null)
+  const [stream, setStream] = useState<any>(null)
 
   useEffect(()=>{
 
@@ -33,11 +32,9 @@ export default function Reciever(){
         }
 
 
-        pc.ontrack = (event) => {
-          
+        pc.ontrack = (event) => {  
           if(event.streams && event.streams[0]){
             setStream(event.streams[0])
-            
           }
         }
 
@@ -53,32 +50,43 @@ export default function Reciever(){
 
     }
 
-
-
-
   },[])
 
-
+ 
   useEffect(()=>{
-
-    console.log(stream?.getVideoTracks())
-
+    console.log(stream)
     if(remoteVideoRef.current && stream){
       remoteVideoRef.current.srcObject = stream
-      remoteVideoRef.current.muted = false
-    }
+    } 
   },[stream])
 
+  function audioPlay(){
+    //@ts-ignore
+    remoteVideoRef.current.muted = false
+  }
 
-
+ 
     return(
         <>
 
-         {
-          stream ? <video autoPlay ref={remoteVideoRef}  playsInline style={{width:"300px" , height:'300px'}}/> : <>Nothing to load</>
-         }
-          
+         <div style={{width:"100vh" , height:'100wv'}}>
 
+           <Video remoteVideoRef={remoteVideoRef} stream={stream} audioPlay={audioPlay} /> 
+         
+         </div>
         </>
     )
+}
+
+function Video({stream , remoteVideoRef , audioPlay }:any){
+
+  return<>{
+    stream ? 
+    <div>
+     <video autoPlay ref={remoteVideoRef} muted style={{width:"400px" , height:'400px'}}/> 
+     <button onClick={audioPlay}>Connect the audio </button>
+    </div>
+      : <>Nothing to load</>} 
+    
+    </>
 }

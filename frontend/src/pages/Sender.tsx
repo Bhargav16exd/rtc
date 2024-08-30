@@ -67,7 +67,7 @@ export default function Sender(){
     return(
         <>
          <button onClick={startSendingVideo}>Start the call</button>
-         <video autoPlay ref={remoteVideoRef} playsInline  style={{width:"300px" , height:'300px'}}/>
+         {/* <video autoPlay ref={remoteVideoRef} playsInline  style={{width:"300px" , height:'300px'}}/> */}
         </>
     )
 }
